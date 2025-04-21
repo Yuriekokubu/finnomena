@@ -1,0 +1,33 @@
+# Node.js dependencies
+node_modules/
+
+# Output directories
+/dist
+/build
+
+# Logs
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables file
+.env
+
+# Puppeteer's Chromium installation
+/.local-chromium
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Excel output directory
+result/
+
+# Temporary files
+*.tmp
+*.swp
