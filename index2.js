@@ -162,10 +162,27 @@ async function getStockFinancialSummary(symbol) {
 
     // 🔀 จัด merge cell เฉพาะคอลัมน์ A (หุ้น)
     worksheet['!merges'] = [];
-    for (let i = 0; i < resultRows.length; i += targetLabels.length) {
+    let mergeStart = 1; // เริ่มต้นที่ row 2 (เพราะ header row คือ 1)
+    let previousSymbol = resultRows[0]?.หุ้น;
+
+    for (let i = 0; i < resultRows.length; i++) {
+        const currentSymbol = resultRows[i].หุ้น;
+        if (currentSymbol !== previousSymbol) {
+            if (i - mergeStart > 0) { // Make sure there are rows to merge
+                worksheet['!merges'].push({
+                    s: { r: mergeStart, c: 0 },
+                    e: { r: i , c: 0 }
+                });
+            }
+            mergeStart = i + 1; // Start merging from the next row
+            previousSymbol = currentSymbol;
+        }
+    }
+     // Merge the last group if needed
+    if (resultRows.length - mergeStart > 0) {
         worksheet['!merges'].push({
-            s: { r: i + 1, c: 0 }, // เริ่ม merge ที่ row ที่ 2 (index 1)
-            e: { r: i + targetLabels.length - 1, c: 0 } // merge แถวถัดไปด้วย
+            s: { r: mergeStart, c: 0 },
+            e: { r: resultRows.length , c: 0 }
         });
     }
 
